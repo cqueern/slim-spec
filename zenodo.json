@@ -1,0 +1,23 @@
+{
+  "title": "SLIM: Structured Low-bandwidth Information Markup",
+  "upload_type": "publication",
+  "publication_type": "other",
+  "description": "SLIM is a minimal, text-first profile for resilient web delivery in low-bandwidth and austere environments. This record archives versioned releases for citability.",
+  "creators": [
+    {
+      "name": "Queern, Caleb",
+      "affiliation": "Texas Cyber Alliance",
+      "orcid": "0000-0000-0000-0000"
+    }
+  ],
+  "keywords": ["web", "performance", "accessibility", "low-bandwidth", "standards", "austere networks"],
+  "license": "other-open",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/cqueern/slim-spec",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Licensed under the W3C Document License. See LICENSE file in repository."
+}
