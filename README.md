@@ -46,7 +46,7 @@ SLIM is intended as an open, evolving profile.
 ## Citation
 If citing SLIM in academic or technical work, please use the DOI from the latest release:
 
-```Queern, C. (2025). SLIM: Structured Low-bandwidth Information Markup v1.0. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX```
+```Queern, C. (2025). SLIM: Structured Low-bandwidth Information Markup v1.0. Zenodo. https://doi.org/10.5281/zenodo.16790879```
 
 **ORCID:** [0009-0009-4440-8941](https://orcid.org/0009-0009-4440-8941)
 
