@@ -1,0 +1,33 @@
+name: Build & Attach Release Artifacts
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bikeshed
+        run: |
+          pipx install bikeshed
+          bikeshed update
+
+      - name: Build HTML
+        run: bikeshed spec spec.bs index.html
+
+      - name: Create PDF (wkhtmltopdf)
+        run: |
+          sudo apt-get update && sudo apt-get install -y wkhtmltopdf
+          wkhtmltopdf index.html slim-v${{ github.event.release.tag_name }}.pdf
+
+      - name: Upload assets to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            index.html
+            slim-v${{ github.event.release.tag_name }}.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
