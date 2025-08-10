@@ -1,7 +1,6 @@
 <pre class='metadata'>
 Title: SLIM: Structured Low-bandwidth Information Markup v1.0
 Shortname: slim
-Status: UD
 Editor: Caleb Queern
 !Date: 2025-08-10
 Logo: none
