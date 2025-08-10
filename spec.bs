@@ -6,10 +6,7 @@ Editor: Caleb Queern
 Logo: none
 Boilerplate: omit dfn-panel
 Markup Shorthands: markdown yes
-</pre>
-
-<pre class='abstract'>
-SLIM is a minimal, text-first authoring profile that improves resilience and usability in low-bandwidth or austere network conditions. It constrains fonts, styling, and client-side behaviors; discourages complex constructs; and prohibits tracking. This Unofficial Draft documents SLIM v1.0 requirements.
+Abstract: SLIM is a minimal, text-first authoring profile that improves resilience and usability in low-bandwidth or austere network conditions. It constrains fonts, styling, and client-side behaviors; discourages complex constructs; and prohibits tracking. This Unofficial Draft documents SLIM v1.0 requirements.
 </pre>
 
 
