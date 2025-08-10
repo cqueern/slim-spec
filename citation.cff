@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2025-08-09
+url: "https://github.com/cqueern/slim-spec"
+
+title: "SLIM: Structured Low-bandwidth Information Markup"
+version: "1.0.0"
+date-released: "2025-08-09"
+authors:
+  - family-names: "Queern"
+    given-names: "Caleb"
+    orcid: "https://orcid.org/0009-0009-4440-8941"
+abstract: >
+  SLIM is a minimal, text-first profile for resilient web delivery in low-bandwidth and austere environments.
+license: "Other-Open"
+repository-code: "https://github.com/cqueern/slim-spec"
+keywords: [web, performance, accessibility, low-bandwidth, standards, network, austere]
