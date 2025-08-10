@@ -1,6 +1,6 @@
 # SLIM: Structured Low-bandwidth Information Markup
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16790879.svg)](https://doi.org/10.5281/zenodo.16790879)
 [![Build Status](https://github.com/cqueern/slim-spec/actions/workflows/release-build.yml/badge.svg)](https://github.com/cqueern/slim-spec/actions/workflows/release-build.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
