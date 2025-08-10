@@ -1,0 +1,170 @@
+<pre class='metadata'>
+Title: SLIM: Structured Low-bandwidth Information Markup v1.0
+Shortname: slim
+Status: UD
+Group: none
+TR: no
+Editor: Caleb Queern
+!Date: 2025-08-10
+Logo: off
+Boilerplate: omit dfn-panel
+Markup Shorthands: markdown yes
+</pre>
+
+<pre class='abstract'>
+SLIM is a minimal, text-first authoring profile that improves resilience and usability in low-bandwidth or austere network conditions. It constrains fonts, styling, and client-side behaviors; discourages complex constructs; and prohibits tracking. This Unofficial Draft documents SLIM v1.0 requirements.
+</pre>
+
+## 1. Introduction
+
+The goal of SLIM is to make **essential information load fast and reliably** on slow, congested, or intermittent networks. SLIM does this by restricting features that tend to harm resilience or add weight.
+
+### 1.1 Non-goals
+SLIM does not define new browser features, protocols, or conformance classes for user agents.
+
+## 2. Scope
+
+This document targets **authors and publishers** who want a predictable, lightweight subset of HTML for information delivery. It may be profiled by organizations (e.g., gov/NGO) with additional local rules.
+
+## 3. Conformance
+
+The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** are to be interpreted as described in RFC 2119. A *SLIM document* is an HTML document that satisfies all **MUST** requirements herein. “Discouraged” items are permitted but **SHOULD** be avoided unless clearly justified.
+
+## 4. Requirements (SLIM v1.0)
+
+### 4.1 Document Identification — MUST
+Include the following meta tag in `<head>`:
+
+`
+<meta name="slim-profile" content="SLIM v1.0">
+`
+
+
+### 4.2 Fetch Model (Single-Request) — MUST
+
+A SLIM document **MUST** fully render after **exactly one** successful HTTPS request for the document URL, with **no additional application-layer network requests** initiated during initial load (i.e., without user interaction).
+
+**In-scope “additional requests” (prohibited during initial load):**
+- Any HTTP(S) fetch triggered by markup, CSS, or JS that retrieves additional resources (e.g., `link[href]`, `@import`, `@font-face`, `img/srcset`, `video/audio sources`, `manifest`, `modulepreload`, `preload`, `prefetch`, `prerender`, service workers).
+- HTTP redirects (3xx) from the document URL.
+- Automatic icon/preview fetches referenced by the document (e.g., `<link rel="icon">`, `apple-touch-icon`, Open Graph/Twitter image metadata).
+
+**Explicitly allowed:**
+- `<link rel="dns-prefetch">`
+- `<link rel="preconnect">`
+
+**Out of scope (not counted as additional requests):**
+- DNS resolution, TLS handshakes, OCSP/CRLite, and other **transport- or PKI-level** operations.
+- User-initiated navigations or submissions after initial render (e.g., clicking a link, submitting a form).
+
+**Authoring requirements to satisfy this rule:**
+- Do **not** include elements/attributes or CSS that fetch external resources of any kind (other than allowed connection hints).
+- Do **not** include `<meta http-equiv="refresh">` or any feature that causes background fetches.
+- Ensure the canonical document URL resolves directly (200 OK) without redirects.
+- Because SLIM is **text-only** (§4.9) and disallows external stylesheets/scripts (§4.4, §4.7), no other fetches should occur.
+
+**Note (favicon behavior):** Some user agents may probe `/favicon.ico` even without a reference. Authors **MUST NOT** reference icons in the document. Operators **SHOULD** configure the origin to return **204 No Content** (or **410 Gone**) for `/favicon.ico` to avoid extra bytes.
+
+### 4.3 Fonts — MUST/SHOULD
+Third-party or downloadable fonts are NOT allowed. Authors SHOULD use system-default fonts only.
+### 4.4 Styling — MUST NOT / MAY
+External stylesheets are NOT allowed. Inline style attributes MAY include only color, font-family, text-align, font-weight, font-style. Layout-related styles are NOT allowed.
+### 4.5 Font Color — SHOULD
+Color must NOT be the sole method of conveying meaning. Prioritize accessibility and legibility.
+### 4.6 Transport (TLS) — MUST
+SLIM documents MUST be served over HTTPS (HTTP over TLS). Plain HTTP is permitted only for offline/local environments where TLS is technically infeasible.
+### 4.7 Accessibility — SHOULD
+Use a clear heading structure and meaningful link text, and avoid reliance on color alone for meaning. ARIA attributes are not required, but semantic clarity is encouraged.
+### 4.7 Tracking — MUST NOT
+No tracking scripts, analytics beacons, or advertising pixels are permitted. If metrics are needed, they MUST be opt-in and external to the SLIM page.
+### 4.8 Inputs — MUST
+All <input> elements MUST specify a type attribute.
+### 4.9 Media — MUST NOT
+SLIM documents **MUST NOT** embed, reference, or fetch non-text media of any kind.
+
+**Prohibited elements and mechanisms (non-exhaustive):**
+- HTML elements: `<img>`, `<picture>`, `<video>`, `<audio>`, `<svg>`, `<canvas>`, `<object>`, `<embed>`, `<iframe>`, `<track>`, `<source>`, `<figure>` (when used for media).
+- CSS: `background-image`, `content: url(...)`, `mask-image`, `list-style-image`, `image-set()`, or any property/value that loads images.
+- URLs/Data URIs: any `data:` or network URL whose MIME type begins with `image/`, `audio/`, or `video/`.
+- Link/meta icons and previews: `<link rel="icon">`, `<link rel="apple-touch-icon">`, `manifest` icons, and social preview metadata such as `og:image`, `twitter:image`.
+- Script-created media: creating or injecting any of the above at runtime is prohibited (even though SLIM already disallows such scripting).
+
+**Allowed:**
+- Plain text, including Unicode characters and emoji.
+- Preformatted ASCII/Unicode diagrams where all content is textual.
+
+**Rationale:** This ensures predictable payload size, eliminates tracking beacons delivered via images, and maximizes reliability in austere networks. Any essential information **MUST** be conveyed in text.
+
+### 4.10 Framing & Embedding — MUST NOT
+
+SLIM documents **MUST NOT** embed other browsing contexts.
+
+**Prohibited:**
+- `<iframe>` elements of any kind (including `srcdoc`)
+- Legacy/embedding elements: `<object>`, `<embed>`, `<frame>`, `<frameset>`
+
+**Rationale:** Embedded contexts violate the single-request fetch model (§4.14), create side-channel requests, and expand the attack surface (tracking, clickjacking, mixed policy contexts).
+
+**Operational guidance (non-normative):**
+Servers **SHOULD** send a Content Security Policy to prevent third-party framing:
+
+`Content-Security-Policy: frame-ancestors 'none'`
+
+This header blocks other sites from framing SLIM pages, reducing clickjacking risk.
+
+
+
+### 4.11 File Size — ADVISORY
+No hard maximum size; authors are encouraged to adopt a “less is more” mindset.
+### 4.12 Versioning — SHOULD
+Follow SLIM versioning guidance (e.g., SLIM v1.0) and update the meta tag accordingly.
+
+
+## 5. Example SLIM Document
+
+
+```
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example SLIM Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="slim-profile" content="SLIM v1.0">
+</head>
+<body style="font-family: system-ui, -apple-system, Segoe UI, Roboto; color: #222;">
+  <h1>Clinic Hours</h1>
+  <p>We are open <strong>Mon–Fri, 9–5</strong>. Call <a href="tel:+15125551234">512-555-1234</a>.</p>
+</body>
+</html>
+```
+
+### 5.1 Content Security Policy (Recommended)
+
+SLIM authors and operators **SHOULD** consider deploying a Content Security Policy that enforces SLIM restrictions at the browser level. An example of a maximally restrictive CSP is:
+
+`Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; font-src 'none'; img-src 'none'; media-src 'none'; script-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; frame-ancestors 'none'; connect-src 'self'`
+
+This policy prevents the browser from loading or executing any resource type disallowed by SLIM. Note that this considered "nice to have" and not "must have".
+
+## 6. Security & Privacy Considerations
+
+SLIM enforces several requirements that enhance security and privacy:
+
+- **TLS encryption (MUST):** All SLIM documents are delivered over HTTPS, ensuring confidentiality and integrity on the wire.
+- **Text-only restriction (MUST NOT):** Prohibits images, audio, video, and other media (§4.13), eliminating image beacons and reducing covert data channels.
+- **Single-request fetch model (MUST):** Requires exactly one HTTPS request during initial load (§4.14), reducing side-channel and supply-chain risk.
+- **No tracking scripts (MUST NOT):** Disallows analytics beacons and advertising pixels (§4.8).
+- **No framing/embedding (MUST NOT):** Disallows `<iframe>`, `<object>`, `<embed>` (§4.15), reducing clickjacking and cross-origin leakage.
+- **No third-party fonts (MUST NOT):** Reduces passive fingerprinting and removes an injection vector (§4.2).
+
+**Browser enforcement via CSP (Recommended):** Operators **SHOULD** deploy a restrictive **Content Security Policy** to have the browser refuse violations. A baseline CSP is provided in §5.1. CSP cannot block transport-level operations (DNS, TLS) and does not affect connection hints like `dns-prefetch`; however, `connect-src` governs which origins may be contacted (including `preconnect`).
+
+**Operational hardening (Recommended):** To avoid extra fetches, operators SHOULD:
+- Return **204 No Content** (or **410 Gone**) from `/favicon.ico`.
+- Ensure canonical SLIM URLs resolve directly with **200 OK** (no redirects).
+- Send `Content-Security-Policy: frame-ancestors 'none'` to prevent third-party framing.
+
+
+## 7. Change History
+v1.0 (2025-08-10): First public Unofficial Draft.
