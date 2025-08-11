@@ -1,5 +1,8 @@
 name: Build & Attach Release Artifacts
 
+permissions:
+  contents: write
+
 on:
   release:
     types: [published]
