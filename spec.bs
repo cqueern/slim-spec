@@ -5,6 +5,7 @@ Editor: Caleb Queern
 !Date: 2025-08-10
 Logo: none
 Org: w3c
+ED: https://cqueern.github.io/slim-spec/
 Status: UD
 Boilerplate: omit dfn-panel
 Markup Shorthands: markdown yes
