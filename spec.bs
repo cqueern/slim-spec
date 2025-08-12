@@ -71,13 +71,27 @@ External stylesheets are NOT allowed. Inline style attributes MAY include only c
 Color must NOT be the sole method of conveying meaning. Prioritize accessibility and legibility.
 ### 4.6 Transport (TLS) — MUST
 SLIM documents MUST be served over HTTPS (HTTP over TLS). Plain HTTP is permitted only for offline/local environments where TLS is technically infeasible.
-### 4.7 Accessibility — SHOULD
+### 4.7 Content Delivery and Compression - MUST
+SLIM documents **MUST** be delivered with HTTP content compression enabled when served over a network, unless operating in an environment where compression is technically infeasible or prohibited by policy.
+
+- **Preferred algorithms:**
+    - **Brotli (`br`)** — SHOULD be used for HTTPS delivery to modern browsers.
+    - **Zstandard (`zstd`)** — SHOULD be used for non-browser delivery contexts or where Brotli is unsupported.
+- **Fallbacks:**
+    - **Gzip (`gzip`)** MAY be used for maximum compatibility where Brotli and Zstandard are not supported.
+- Compression SHOULD target the HTML payload and any permitted inline text-based resources (e.g., inline CSS within allowed style attributes).
+- Authors MUST ensure compression does not interfere with accessibility tooling or downstream caching.
+
+**Rationale:**  
+Compression substantially reduces payload size and improves load times in low-bandwidth or austere network conditions, which aligns with SLIM’s core goal of efficiency.
+
+### 4.8 Accessibility — SHOULD
 Use a clear heading structure and meaningful link text, and avoid reliance on color alone for meaning. ARIA attributes are not required, but semantic clarity is encouraged.
-### 4.7 Tracking — MUST NOT
+### 4.9 Tracking — MUST NOT
 No tracking scripts, analytics beacons, or advertising pixels are permitted. If metrics are needed, they MUST be opt-in and external to the SLIM page.
-### 4.8 Inputs — MUST
+### 4.10 Inputs — MUST
 All <input> elements MUST specify a type attribute.
-### 4.9 Media — MUST NOT
+### 4.11 Media — MUST NOT
 SLIM documents **MUST NOT** embed, reference, or fetch non-text media of any kind.
 
 **Prohibited elements and mechanisms (non-exhaustive):**
@@ -93,7 +107,7 @@ SLIM documents **MUST NOT** embed, reference, or fetch non-text media of any kin
 
 **Rationale:** This ensures predictable payload size, eliminates tracking beacons delivered via images, and maximizes reliability in austere networks. Any essential information **MUST** be conveyed in text.
 
-### 4.10 Framing & Embedding — MUST NOT
+### 4.12 Framing & Embedding — MUST NOT
 
 SLIM documents **MUST NOT** embed other browsing contexts.
 
@@ -143,7 +157,7 @@ SLIM authors and operators **SHOULD** consider deploying a Content Security Poli
 
 `Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; font-src 'none'; img-src 'none'; media-src 'none'; script-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; frame-ancestors 'none'; connect-src 'self'`
 
-This policy prevents the browser from loading or executing any resource type disallowed by SLIM. Note that this considered "nice to have" and not "must have".
+This policy prevents the browser from loading or executing any resource type disallowed by SLIM.
 
 ## 6. Security & Privacy Considerations
 
