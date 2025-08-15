@@ -117,14 +117,6 @@ SLIM documents **MUST NOT** embed other browsing contexts.
 
 **Rationale:** Embedded contexts violate the single-request fetch model (§4.14), create side-channel requests, and expand the attack surface (tracking, clickjacking, mixed policy contexts).
 
-**Operational guidance (non-normative):**
-Servers **SHOULD** send a Content Security Policy to prevent third-party framing:
-
-`Content-Security-Policy: frame-ancestors 'none'`
-
-This header blocks other sites from framing SLIM pages, reducing clickjacking risk.
-
-
 
 ### 4.11 File Size — ADVISORY
 No hard maximum size; authors are encouraged to adopt a “less is more” mindset.
@@ -155,7 +147,7 @@ Follow SLIM versioning guidance (e.g., SLIM v1.0) and update the meta tag accord
 
 SLIM authors and operators **SHOULD** consider deploying a Content Security Policy that enforces SLIM restrictions at the browser level. An example of a maximally restrictive CSP is:
 
-`Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; font-src 'none'; img-src 'none'; media-src 'none'; script-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; frame-ancestors 'none'; connect-src 'self'`
+`Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; font-src 'none'; img-src 'none'; media-src 'none'; script-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; connect-src 'self'`
 
 This policy prevents the browser from loading or executing any resource type disallowed by SLIM.
 
@@ -175,7 +167,6 @@ SLIM enforces several requirements that enhance security and privacy:
 **Operational hardening (Recommended):** To avoid extra fetches, operators SHOULD:
 - Return **204 No Content** (or **410 Gone**) from `/favicon.ico`.
 - Ensure canonical SLIM URLs resolve directly with **200 OK** (no redirects).
-- Send `Content-Security-Policy: frame-ancestors 'none'` to prevent third-party framing.
 
 
 ## 7. Change History
