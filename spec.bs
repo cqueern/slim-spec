@@ -90,7 +90,7 @@ Use a clear heading structure and meaningful link text, and avoid reliance on co
 ### 4.9 Tracking — MUST NOT
 No tracking scripts, analytics beacons, or advertising pixels are permitted. If metrics are needed, they MUST be opt-in and external to the SLIM page.
 ### 4.10 Inputs — MUST
-All <input> elements MUST specify a type attribute.
+All `<input>` elements MUST specify a type attribute.
 ### 4.11 Media — MUST NOT
 SLIM documents **MUST NOT** embed, reference, or fetch non-text media of any kind.
 
