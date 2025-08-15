@@ -117,10 +117,23 @@ SLIM documents **MUST NOT** embed other browsing contexts.
 
 **Rationale:** Embedded contexts violate the single-request fetch model (§4.14), create side-channel requests, and expand the attack surface (tracking, clickjacking, mixed policy contexts).
 
+### 4.13 HTTP Version - SHOULD
 
-### 4.11 File Size — ADVISORY
+When SLIM documents are served over a network, servers **SHOULD** use a modern HTTP version that improves performance and resilience:
+
+- **HTTP/3** — SHOULD be preferred where supported by both server and client.
+- **HTTP/2** — SHOULD be used as a fallback where HTTP/3 is not available.
+- **HTTP/1.1** — MAY be used only when HTTP/3 and HTTP/2 are unavailable.
+
+Servers MUST maintain compatibility for clients that do not support newer HTTP versions, but SHOULD prioritize protocols that reduce latency, improve multiplexing, and enhance connection reliability — especially in austere network environments.
+
+**Rationale:**  
+Using HTTP/3 or HTTP/2 enables better performance through features like multiplexed requests, reduced head-of-line blocking, and improved connection handling, all of which support SLIM’s goal of fast, resilient content delivery. 
+
+### 4.14 File Size — ADVISORY
 No hard maximum size; authors are encouraged to adopt a “less is more” mindset.
-### 4.12 Versioning — SHOULD
+
+### 4.15 Versioning — SHOULD
 Follow SLIM versioning guidance (e.g., SLIM v1.0) and update the meta tag accordingly.
 
 
