@@ -40,7 +40,7 @@ Include the following meta tag in `<head>`:
 
 ### 4.2 Fetch Model (Single-Request) — MUST
 
-A SLIM document **MUST** fully render after **exactly one** successful HTTPS request for the document URL, with **no additional application-layer network requests** initiated during initial load (i.e., without user interaction).
+A SLIM document **MUST** fully render after **exactly one** successful HTTPS request for the document URL, with **no additional application-layer network requests** initiated during load (i.e., without subsequent user interaction).
 
 **In-scope “additional requests” (prohibited during initial load):**
 - Any HTTP(S) fetch triggered by markup, CSS, or JS that retrieves additional resources (e.g., `link[href]`, `@import`, `@font-face`, `img/srcset`, `video/audio sources`, `manifest`, `modulepreload`, `preload`, `prefetch`, `prerender`, service workers).
@@ -79,8 +79,7 @@ SLIM documents **MUST** be delivered with HTTP content compression enabled when 
     - **Zstandard (`zstd`)** — SHOULD be used for non-browser delivery contexts or where Brotli is unsupported.
 - **Fallbacks:**
     - **Gzip (`gzip`)** MAY be used for maximum compatibility where Brotli and Zstandard are not supported.
-- Compression SHOULD target the HTML payload and any permitted inline text-based resources (e.g., inline CSS within allowed style attributes).
-- Authors MUST ensure compression does not interfere with accessibility tooling or downstream caching.
+
 
 **Rationale:**  
 Compression substantially reduces payload size and improves load times in low-bandwidth or austere network conditions, which aligns with SLIM’s core goal of efficiency.
