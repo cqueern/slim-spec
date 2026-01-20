@@ -7,7 +7,8 @@ Logo: none
 Org: w3c
 ED: https://cqueern.github.io/slim-spec/
 Status: UD
-Boilerplate: omit dfn-panel omit copyright
+Boilerplate: omit dfn-panel 
+Boilerplate: omit copyright
 Markup Shorthands: markdown yes
 Abstract: SLIM is a minimal, text-first authoring profile that improves resilience and usability in low-bandwidth or austere network conditions. It constrains fonts, styling, and client-side behaviors; discourages complex constructs; and prohibits tracking. This Unofficial Draft documents SLIM v1.0 requirements.
 </pre>
