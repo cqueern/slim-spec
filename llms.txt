@@ -2,96 +2,128 @@
 
 This repository defines **SLIM**, a minimal, text-first HTML authoring profile for delivering reliable, accessible information in low-bandwidth and austere network conditions.
 
-Use these resources (in this order) when you need to build or validate SLIM-compliant output.
+Use these resources (in this order) when building or validating SLIM-compliant output.
 
 ---
 
 ## Canonical sources (read these first)
 
-1) **SLIM spec repository (source + context)**
+1) SLIM spec repository (source + context)
 - https://github.com/cqueern/slim-spec
 
-2) **Bikeshed source of the spec (normative source)**
+2) Bikeshed source of the specification (normative source of truth)
 - https://raw.githubusercontent.com/cqueern/slim-spec/main/spec.bs
 
-3) **Latest release (built artifacts + version context)**
+3) Latest release (built artifacts + version context)
 - https://github.com/cqueern/slim-spec/releases/latest
 
-4) **Citable snapshot (Zenodo DOI)**
+4) Citable snapshot (Zenodo DOI)
 - https://doi.org/10.5281/zenodo.16790879
+
+If there is any ambiguity, treat `spec.bs` as authoritative.
 
 ---
 
-## Quick “how to comply” (implementation-oriented)
+## Quick “how to comply” (implementation-oriented summary)
 
-When generating SLIM HTML, follow these high-level requirements:
+When generating SLIM HTML, follow these high-level requirements.
 
 ### Content model
-- Text-first, resilient delivery: avoid media-heavy or multi-request dependencies.
-- Prefer semantic HTML with a clear heading structure.
+- Text-first, resilient delivery.
+- Prefer semantic HTML with clear heading structure.
+- Design for meaningful rendering without progressive enhancement.
 
-### Network / loading constraints
-- **Single-request render model**: design pages so they render from one HTTPS fetch (no additional subresource loads).
-- **Mandatory TLS**: serve SLIM content over HTTPS.
+### Network / transport requirements
+
+SLIM is transport-aware but resilience-first.
+
+- SLIM content MUST be served over HTTPS.
+- When served over a network, servers SHOULD use a modern HTTP version that improves performance and resilience:
+
+  - HTTP/3 — SHOULD be preferred where supported by both server and client.
+  - HTTP/2 — SHOULD be used as a fallback where HTTP/3 is not available.
+  - HTTP/1.1 — MAY be used only when HTTP/3 and HTTP/2 are unavailable.
+
+- SLIM content MUST remain fully functional over HTTPS using HTTP/1.1.
+- Protocol optimization MUST NOT be required for correctness.
+
+### Single-request render goal
+- Pages should render meaningfully from a single HTTPS request.
+- Avoid external subresource dependencies.
+- Prefer links over embedded assets.
 
 ### Scripts / tracking / third parties
-- **No scripts** (including analytics, beacons, advertising pixels).
-- No embedded contexts (e.g., iframes).
+- No JavaScript.
+- No analytics, tracking pixels, or beacons.
+- No embedded contexts (iframe, object, embed).
 - No third-party fonts.
+- No external stylesheets.
 
 ### Styling
-- Inline styles are allowed only for a **limited set of properties** (keep it minimal; avoid layout-driven CSS).
-- Color must not be the only way meaning is conveyed (accessibility).
+- Inline styles are allowed only for a limited set of properties.
+- Avoid layout-driven CSS.
+- Color must not be the sole method of conveying meaning (accessibility).
 
 ### Forms / tables
-- Tables and forms are discouraged (use only when clearly justified; keep simple and robust).
+- Tables and forms are discouraged and SHOULD be avoided unless clearly justified.
+- If used, keep simple and robust.
+- Do not rely on client-side validation.
 
-### HTML authoring rules that matter for code generation
+### Mandatory authoring constraints
 - All `<input>` elements MUST include a `type` attribute.
 - Include the SLIM profile meta tag:
   - `<meta name="slim-profile" content="SLIM v1.0">`
 
-If anything above conflicts with the Bikeshed source (`spec.bs`), treat `spec.bs` as the source of truth.
-
 ---
 
-## Where to look for details inside this repo
+## Where to look for details inside this repository
 
 - Project overview + build instructions:
-  - https://github.com/cqueern/slim-spec#slim-structured-low-bandwidth-information-markup
+  https://github.com/cqueern/slim-spec#slim-structured-low-bandwidth-information-markup
+
 - Status / version notes:
-  - https://github.com/cqueern/slim-spec#status
+  https://github.com/cqueern/slim-spec#status
+
 - Local build instructions (Bikeshed):
-  - https://github.com/cqueern/slim-spec#building-the-spec-locally
-- Repository contents (what files mean):
-  - https://github.com/cqueern/slim-spec#repository-contents
+  https://github.com/cqueern/slim-spec#building-the-spec-locally
+
+- Repository contents:
+  https://github.com/cqueern/slim-spec#repository-contents
+
 - Contributing:
-  - https://github.com/cqueern/slim-spec#contributing
+  https://github.com/cqueern/slim-spec#contributing
+
 - Citation:
-  - https://github.com/cqueern/slim-spec#citation
+  https://github.com/cqueern/slim-spec#citation
 
 ---
 
 ## Suggested usage for AI coding agents
 
-If you are writing code (generator, linter, sanitizer, validator):
+If writing a generator, linter, sanitizer, or validator:
 
-1) Fetch and read the Bikeshed source:
-   - https://raw.githubusercontent.com/cqueern/slim-spec/main/spec.bs
+1) Fetch and read:
+   https://raw.githubusercontent.com/cqueern/slim-spec/main/spec.bs
 
-2) Extract the normative rules (MUST / MUST NOT / SHOULD).
-3) Implement validation/sanitization that enforces:
-   - no scripts, tracking, iframes, third-party fonts
-   - the single-request render goal (no external resources)
-   - required metadata and authoring constraints (e.g., `<input type=...>`, slim-profile meta tag)
-   - constrained inline styling rules
+2) Extract normative rules (MUST / MUST NOT / SHOULD / MAY).
 
-4) Prefer deterministic behavior:
-   - When uncertain, choose the stricter interpretation that preserves the single-request + text-first goals.
+3) Enforce at minimum:
+   - No scripts or tracking
+   - No external CSS or third-party fonts
+   - No embedded contexts
+   - Required `<meta name="slim-profile" content="SLIM v1.0">`
+   - `<input>` elements MUST include `type`
+   - Page must not require additional network fetches for correctness
+   - Transport optimization (HTTP/3 → HTTP/2 → HTTP/1.1) should not affect correctness
+
+4) Prefer strict interpretation when uncertain.
 
 ---
 
 ## Maintainer / contact
 
-- Repo: https://github.com/cqueern/slim-spec
-- Issues: https://github.com/cqueern/slim-spec/issues
+- Repository:
+  https://github.com/cqueern/slim-spec
+
+- Issues:
+  https://github.com/cqueern/slim-spec/issues
