@@ -1,3 +1,5 @@
+🤖 AI agents: see [llms.txt](./llms.txt) for structured guidance.
+
 # SLIM: Structured Low-bandwidth Information Markup
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16790879.svg)](https://doi.org/10.5281/zenodo.16790879)
