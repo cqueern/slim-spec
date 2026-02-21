@@ -1,0 +1,97 @@
+# SLIM: Structured Low-bandwidth Information Markup (SLIM spec)
+
+This repository defines **SLIM**, a minimal, text-first HTML authoring profile for delivering reliable, accessible information in low-bandwidth and austere network conditions.
+
+Use these resources (in this order) when you need to build or validate SLIM-compliant output.
+
+---
+
+## Canonical sources (read these first)
+
+1) **SLIM spec repository (source + context)**
+- https://github.com/cqueern/slim-spec
+
+2) **Bikeshed source of the spec (normative source)**
+- https://raw.githubusercontent.com/cqueern/slim-spec/main/spec.bs
+
+3) **Latest release (built artifacts + version context)**
+- https://github.com/cqueern/slim-spec/releases/latest
+
+4) **Citable snapshot (Zenodo DOI)**
+- https://doi.org/10.5281/zenodo.16790879
+
+---
+
+## Quick “how to comply” (implementation-oriented)
+
+When generating SLIM HTML, follow these high-level requirements:
+
+### Content model
+- Text-first, resilient delivery: avoid media-heavy or multi-request dependencies.
+- Prefer semantic HTML with a clear heading structure.
+
+### Network / loading constraints
+- **Single-request render model**: design pages so they render from one HTTPS fetch (no additional subresource loads).
+- **Mandatory TLS**: serve SLIM content over HTTPS.
+
+### Scripts / tracking / third parties
+- **No scripts** (including analytics, beacons, advertising pixels).
+- No embedded contexts (e.g., iframes).
+- No third-party fonts.
+
+### Styling
+- Inline styles are allowed only for a **limited set of properties** (keep it minimal; avoid layout-driven CSS).
+- Color must not be the only way meaning is conveyed (accessibility).
+
+### Forms / tables
+- Tables and forms are discouraged (use only when clearly justified; keep simple and robust).
+
+### HTML authoring rules that matter for code generation
+- All `<input>` elements MUST include a `type` attribute.
+- Include the SLIM profile meta tag:
+  - `<meta name="slim-profile" content="SLIM v1.0">`
+
+If anything above conflicts with the Bikeshed source (`spec.bs`), treat `spec.bs` as the source of truth.
+
+---
+
+## Where to look for details inside this repo
+
+- Project overview + build instructions:
+  - https://github.com/cqueern/slim-spec#slim-structured-low-bandwidth-information-markup
+- Status / version notes:
+  - https://github.com/cqueern/slim-spec#status
+- Local build instructions (Bikeshed):
+  - https://github.com/cqueern/slim-spec#building-the-spec-locally
+- Repository contents (what files mean):
+  - https://github.com/cqueern/slim-spec#repository-contents
+- Contributing:
+  - https://github.com/cqueern/slim-spec#contributing
+- Citation:
+  - https://github.com/cqueern/slim-spec#citation
+
+---
+
+## Suggested usage for AI coding agents
+
+If you are writing code (generator, linter, sanitizer, validator):
+
+1) Fetch and read the Bikeshed source:
+   - https://raw.githubusercontent.com/cqueern/slim-spec/main/spec.bs
+
+2) Extract the normative rules (MUST / MUST NOT / SHOULD).
+3) Implement validation/sanitization that enforces:
+   - no scripts, tracking, iframes, third-party fonts
+   - the single-request render goal (no external resources)
+   - required metadata and authoring constraints (e.g., `<input type=...>`, slim-profile meta tag)
+   - constrained inline styling rules
+
+4) Prefer deterministic behavior:
+   - When uncertain, choose the stricter interpretation that preserves the single-request + text-first goals.
+
+---
+
+## Maintainer / contact
+
+- Repo: https://github.com/cqueern/slim-spec
+- Issues: https://github.com/cqueern/slim-spec/issues
