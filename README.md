@@ -6,7 +6,7 @@
 [![Build Status](https://github.com/cqueern/slim-spec/actions/workflows/release-build.yml/badge.svg)](https://github.com/cqueern/slim-spec/actions/workflows/release-build.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**SLIM** is a minimal, text-first HTML authoring profile for delivering reliable, accessible information in low-bandwidth and austere network conditions.
+**SLIM** is a minimal, text-first HTML authoring profile for delivering reliable, accessible information to humans and AI-mediated interfaces in low-bandwidth and austere network conditions.
 
 SLIM v1.0 defines strict authoring rules to ensure:
 - **Text-only content** (no images, video, or audio)
